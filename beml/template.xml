@@ -1,0 +1,67 @@
+<Runtime>
+  <Theme name="Deluxe" style="Light"/>
+  <Layout>
+    <ChromelessVideoPlayer id="videoPlayer">
+      <ChromelessControls boxType="vbox" visible="{!videoPlayer.menu.open}" vAlign="bottom">
+        <!-- Playback controls -->
+        <HBox hAlign="center" height="60">
+          <HBox id="defaultView" gutter="6" padding="10" vAlign="middle" maxWidth="820">
+            <ToggleButton id="playButton" width="65" iconName="play" toggledIconName="pause" tooltip="controls play tooltip" toggledTooltip="controls pause tooltip" click="{videoPlayer.play()}" toggledClick="{videoPlayer.pause()}" toggled="{videoPlayer.playing}" enabled="{videoPlayer.video}" includeInLayout="{adContext.playPauseVisible}"/>
+            <Canvas height="30">
+              <GraphicBlock/>
+              <!-- Non-Ad mode -->
+              <ViewStack selectedIndex="{videoPlayer.playbackType}" visible="{!adContext.sponsorMessageVisible}">
+                <!-- VOD -->
+                <HBox gutter="4" vAlign="middle">
+                  <Spacer width="1"/>
+                  <Canvas width="40">
+                    <Label id="positionLabel" y="-1" text="{format(videoPlayer.mediaPosition, SecondsTimecodeFormatter)}" vAlign="middle" hAlign="right" alpha=".75"/>
+                  </Canvas>
+                  <Playhead id="playhead" height="6" mediaController="{videoPlayer}" useTimeToolTip="true" enabled="{videoPlayer.video}"/>
+                  <Canvas width="40">
+                    <Label id="durationLabel" y="-1" text="{format(videoPlayer.mediaDuration, SecondsTimecodeFormatter)}" vAlign="middle" hAlign="left" alpha=".75"/>
+                  </Canvas>
+                  <Spacer width="1"/>
+                </HBox>
+                <!-- Live -->
+                <HBox padding="7">
+                  <Canvas>
+                    <Label text="live media message" y="-1" truncate="true"/>
+                  </Canvas>
+                </HBox>
+                <!-- Bumper -->
+                <HBox/>
+                <!-- Live DVR -->
+                <HBox gutter="4" vAlign="middle">
+                  <Spacer width="1"/>
+                  <Canvas width="40">
+                    <Label id="dvrFullPositionLabel" y="-1" text="{format(videoPlayer.mediaPosition, SecondsTimecodeFormatter)}" vAlign="middle" hAlign="right" alpha=".75"/>
+                  </Canvas>
+                  <Playhead id="dvrFullPlayhead" height="6" mediaController="{videoPlayer}" useTimeToolTip="true" enabled="{videoPlayer.video}"/>
+                  <Spacer width="1"/>
+                  <LiveButton label="live dvr message" id="liveButtonFull" labelBuffer="8" height="20" labelAlignmentV="top" autoSize="true" lockHeight="true" tooltip="live dvr tooltip" enabled="{!videoPlayer.isPlayingLive}" click="{videoPlayer.seek(-1)}"/>
+                  <Spacer width="1"/>
+                </HBox>
+              </ViewStack>
+              <!-- Ad mode -->
+              <VBox visible="{adContext.sponsorMessageVisible}">
+                <HBox vAlign="middle">
+                  <Spacer width="7"/>
+                  <Label text="sponsor message" vAlign="middle"/>
+                  <Label id="adTimePosition" visible="{adContext.timePositionVisible}" hAlign="right" vAlign="middle" text="{format(videoPlayer.positiveTimeRemaining, SecondsTimecodeFormatter)}"/>
+                  <Spacer width="7"/>
+                </HBox>
+                <Spacer height="1"/>
+              </VBox>
+            </Canvas>
+            <CaptionControls showBack="false" id="captionsButton" width="35" height="30" iconName="captions-off" toggledIconName="captions-on" tooltip="acc cc showcaptions" toggledTooltip="no CC" toggled="{videoPlayer.captionsEnabled}" includeInLayout="{videoPlayer.captionsAvailable}"/>
+            <Button id="shareButton" width="35" height="30" iconName="socialShare" tooltip="community socialShare tooltip" data="{videoPlayer.video}" visible="{adContext.menuOptionsVisible}" includeInLayout="true"/>
+            <ToggleButton id="fullscreenButton" width="35" height="30" iconName="maximize" toggledIconName="minimize" tooltip="controls maximize tooltip" toggledTooltip="controls minimize tooltip" click="{videoPlayer.goFullScreen(true)}" toggledClick="{videoPlayer.goFullScreen(false)}" toggled="{videoPlayer.fullscreen}" includeInLayout="{adContext.maximizeVisible}"/>
+            <VolumeControl id="volumeButton" width="35" height="30" mediaController="{videoPlayer}" useOverlayLayer="false" iconName="volume" mutedIconName="muted" tooltip="mute tooltip" mutedTooltip="unmute tooltip" useZeroWidth="true" horizontalPadding="10" includeInLayout="{adContext.volumeVisible}" popupGutter="3"/>
+          </HBox>
+        </HBox>
+        <Spacer height="20" includeInLayout="{videoPlayer.fullscreen}"/>
+      </ChromelessControls>
+    </ChromelessVideoPlayer>
+  </Layout>
+</Runtime>
