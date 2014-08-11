@@ -207,7 +207,7 @@ package {
             var description:String = encodeURIComponent(this._videoModule.getCurrentVideo().shortDescription);
             var videoStill:String = encodeURIComponent(this._videoModule.getCurrentVideo().videoStillURL);
             var shareURL:String = encodeURIComponent(this._socialModule.getLink());
-            var url:String = ((((((((("http://www.linkedin.com/shareArticle?mini=true&url=" + shareURL) + "&title=") + title) + "&media=") + videoStill) + "&summary=") + description) + "&source=") + encodeURIComponent("My cool website"));
+            var url:String = ((((((((("http://www.linkedin.com/shareArticle?mini=true&url=" + shareURL) + "&title=") + title) + "&media=") + videoStill) + "&summary=") + description) + "&source=") + encodeURIComponent(shareURL));
             this._videoModule.pause(true);
             navigateToURL(new URLRequest(url), "_blank");
         }
